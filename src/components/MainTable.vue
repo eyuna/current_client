@@ -23,10 +23,11 @@
         </b-form-select>
         <!-- <span>Selected: {{ smallSelected }}</span><br> -->
       </div>
-    
     </div>
+
     <div id="table">
-      <!-- <b-table striped hover :items="tableItems"></b-table> -->
+      <b-form-input v-model="text" placeholder="검색어를 입력하세요."></b-form-input>
+      <div class="mt-2">Value: {{ text }}</div>
       <b-table striped hover :items="tableItems" :fields="fields"></b-table>
     </div>
     
@@ -57,7 +58,8 @@
         majorSelected: null,
         majorOpt: [],
         smallSelected: null,
-        smallOpt: []
+        smallOpt: [],
+        text: ''
       }
     },
     methods:{
@@ -121,10 +123,18 @@
     display: inline;
     text-align-last:center;
   }
+  #search-form {
+    width: 10%;
+    float: right;
+    padding-right: 100px;
+  }
   #table {
     width: 80%;
     float: right;
     padding-right: 100px;
+  }
+  #mt-2 {
+    text-align: center;
   }
 </style>
 <style module>
