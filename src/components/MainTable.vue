@@ -27,7 +27,7 @@
 
     <div id="table">
       <b-form-input v-model="text" placeholder="검색어를 입력하세요."></b-form-input>
-      <div class="mt-2">Value: {{ text }}</div>
+      <!-- <div class="mt-2">Value: {{ text }}</div> -->
       <b-table striped hover :items="tableItems" :fields="fields"></b-table>
     </div>
     
