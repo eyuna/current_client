@@ -26,11 +26,10 @@
     </div>
 
     <div id="table">
-      <b-form-input v-model="text" placeholder="검색어를 입력하세요."></b-form-input>
+      <b-form-input v-model="text" v-on:keyup.enter="submit" placeholder="이름으로 검색"></b-form-input>
       <div class="mt-2">Value: {{ text }}</div>
       <b-table striped hover :items="tableItems" :fields="fields"></b-table>
     </div>
-    
     
   </div>
 </template>
@@ -95,6 +94,17 @@
         this.$http.get('http://localhost/keyword/search', {
           params: {
             code: event
+          }
+        })
+        .then((result) => {
+          vm.tableItems = result.data;
+        })
+      },
+      submit() { //TODO: NullException
+        var vm = this;
+        this.$http.get('http://localhost/keyword/word', {
+          params: {
+            word: vm.text
           }
         })
         .then((result) => {
