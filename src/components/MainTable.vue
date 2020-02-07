@@ -45,9 +45,13 @@
       </div>
     </div>
     <modal v-show="showModal">
-      <div class="modal" v-on:click="showModal = !showModal">
-          <div class="modal-wrapper" >
-            <div class="container" id="container">
+      
+      <div class="modal">
+        <button type="button" class="close" aria-label="Close" @click="showModal = !showModal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="modal-wrapper" >  
+            <div class="container" id="container" v-on:clickout="showModal = !showModal">
               <div class="form-container log-in-container">
                 <form action="#">
                   <h1>Login</h1>
@@ -71,7 +75,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div>  
       </div>
     </modal>
 
