@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import MainTable from '@/components/MainTable'
+import LoginPage from '@/components/LoginPage'
 import BootstrapVue from 'bootstrap-vue'
 
 Vue.use(BootstrapVue)
@@ -18,6 +19,12 @@ export default new Router({
       path: '/main',
       name: 'MainTable',
       component: MainTable
+    },
+    {
+      path: '/login',
+      name: 'LoginPage',
+      component: LoginPage
     }
+
   ]
 })
