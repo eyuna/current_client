@@ -4,7 +4,7 @@
       <b-nav align="right">
         <!-- <b-nav-item href="/#/login" active>Login</b-nav-item> -->
         <b-nav-item @click="showModal = true" active>Login</b-nav-item>
-        <b-nav-item>MyPage</b-nav-item>
+        <b-nav-item href="/#/mypage" >MyPage</b-nav-item>
         <b-nav-item disabled>Admin</b-nav-item>
       </b-nav>
     </div>
@@ -62,7 +62,7 @@
                   <span>or use your account</span>
                   <input type="email" placeholder="Email" />
                   <input type="password" placeholder="Password" />
-                  <a href="#">회원이 아니신가요?</a>
+                  <a href="/#/signup">회원이 아니신가요?</a>
                   <button>Log In</button>
                 </form>
               </div>
