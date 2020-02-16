@@ -53,17 +53,18 @@
         <div class="modal-wrapper" >  
             <div class="container" id="container" v-on:clickout="showModal = !showModal">
               <div class="form-container log-in-container">
-                <form action="#">
+                <!-- <form action="/#/main"> -->
+                <form>
                   <h1>Login</h1>
                   <div class="social-container">
                     <a href="#" class="social"><i class="fa fa-facebook fa-2x"></i></a>
                     <a href="#" class="social"><i class="fab fa fa-twitter fa-2x"></i></a>
                   </div>
                   <span>or use your account</span>
-                  <input type="email" placeholder="Email" />
-                  <input type="password" placeholder="Password" />
+                  <input type="email" v-model="email" placeholder="Email" />
+                  <input type="password" v-model="pw" placeholder="Password" />
                   <a href="/#/signup">회원이 아니신가요?</a>
-                  <button>Log In</button>
+                  <button v-on:click="login">Log In</button>
                 </form>
               </div>
               <div class="overlay-container">
@@ -107,7 +108,9 @@
         smallSelected: null,
         smallOpt: [],
         text: '',
-        showModal: false
+        showModal: false,
+        email: '',
+        pw:''
       }
     },
     methods:{
@@ -159,6 +162,20 @@
         .then((result) => {
           vm.tableItems = result.data;
         })
+      },
+      login() {
+        var vm = this;
+        this.$http.post('http://localhost/member/login', {
+          "uemail": vm.email,
+          "upw": vm.pw
+          }) 
+          .then ((result) => { 
+            alert("로그인 완료")
+            vm.showModal = false
+            console.log(result) 
+          }, (error) => {
+            alert("로그인 실패")
+          });
       }
     },
     mounted(){
