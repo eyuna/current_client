@@ -3,8 +3,9 @@
     <div id="nav">
       <b-nav align="right">
         <!-- <b-nav-item href="/#/login" active>Login</b-nav-item> -->
-        <b-nav-item @click="showModal = true" active>Login</b-nav-item>
-        <b-nav-item href="/#/mypage" >MyPage</b-nav-item>
+        <b-nav-item v-if="tk" @click="logout">Logout</b-nav-item>
+        <b-nav-item v-else @click="showModal = true" active>Login</b-nav-item>
+        <b-nav-item href="/mypage" >MyPage</b-nav-item>
         <b-nav-item disabled>Admin</b-nav-item>
       </b-nav>
     </div>
@@ -45,7 +46,6 @@
       </div>
     </div>
     <modal v-show="showModal">
-      
       <div class="modal">
         <button type="button" class="close" aria-label="Close" @click="showModal = !showModal">
           <span aria-hidden="true">&times;</span>
@@ -63,8 +63,8 @@
                   <span>or use your account</span>
                   <input type="email" v-model="email" placeholder="Email" />
                   <input type="password" v-model="pw" placeholder="Password" />
-                  <a href="/#/signup">회원이 아니신가요?</a>
-                  <button v-on:click="login">Log In</button>
+                  <a href="/signup">회원이 아니신가요?</a>
+                  <button type="button" @click="login">Log In</button>
                 </form>
               </div>
               <div class="overlay-container">
@@ -110,7 +110,9 @@
         text: '',
         showModal: false,
         email: '',
-        pw:''
+        pw:'',
+        usable: false,
+        tk: localStorage.getItem('accessToken')
       }
     },
     methods:{
@@ -150,9 +152,11 @@
         })
         .then((result) => {
           vm.tableItems = result.data;
+          vm.text = ''
         })
       },
-      submit() { //TODO: NullException
+      submit() { // TODO 1: NullException
+      // TODO 2: opt initialize
         var vm = this;
         this.$http.get('http://localhost/keyword/word', {
           params: {
@@ -166,21 +170,44 @@
       login() {
         var vm = this;
         this.$http.post('http://localhost/member/login', {
-          "uemail": vm.email,
-          "upw": vm.pw
+          uemail: vm.email,
+          upw: vm.pw
           }) 
           .then ((result) => { 
-            alert("로그인 완료")
             vm.showModal = false
-            console.log(result) 
+            alert("로그인 완료")
+            // console.log(result.data.data.accessToken) 
+            this.$store.dispatch('MLOGIN', { accessToken: result.data.data.accessToken })
+            // document.cookie = `accessToken=${result.data.data.accessToken}`;
+            this.$http.defaults.headers.common['x-access-token'] = result.data.data.accessToken
+            location.reload()
           }, (error) => {
             alert("로그인 실패")
           });
+      },
+      logout() {
+        var vm = this;
+        this.$store.dispatch('LOGOUT')
+        alert("로그아웃 되었습니다.")
+        location.reload()
+      },
+      isUsable() {
+            // var accessToken = $cookies.get('accessToken')
+            this.$http.get('http://localhost/member/tkcheck', {
+                params: {
+                    jwt: accessToken
+                    }
+                })
+                .then((res) => {
+                    console.log(res.data)
+                    this.usable = res.data
+                    })
       }
     },
     mounted(){
       // this.getInitTable();
       this.getMajorInit();
+      // this.isUsable();
     }
   }
 </script>
