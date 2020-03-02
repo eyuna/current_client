@@ -10,7 +10,7 @@ const resourceHost = 'http://localhost'
 const enhanceAccessToeken = () => {
     const {accessToken} = localStorage
     if (!accessToken) return
-    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+    axios.defaults.headers.common['Authorization'] = `${accessToken}`;
   }
   enhanceAccessToeken()
 
@@ -22,7 +22,6 @@ export const store = new Vuex.Store({
     
     actions: {
         MLOGIN ({commit}, payload) {
-            // alert(payload.accessToken)
             commit('MLOGIN', payload.accessToken)
         },
 
@@ -34,9 +33,7 @@ export const store = new Vuex.Store({
     },
     mutations: {
         MLOGIN (state, accessToken) {
-            // alert(accessToken)
             state.accessToken = accessToken
-            alert(state.accessToken)
             localStorage.accessToken = accessToken
         },
         LOGOUT (state) {

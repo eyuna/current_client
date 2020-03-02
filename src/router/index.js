@@ -5,8 +5,10 @@ import HelloWorld from '@/components/HelloWorld'
 import MainTable from '@/components/MainTable'
 import SignUpPage from '@/components/SignUpPage'
 import MyPage from '@/components/MyPage'
+import DetailPage from '@/components/DetailPage'
 import BootstrapVue from 'bootstrap-vue'
 import { store } from '../store/store';
+import VueDaumMap from 'vue-daum-map'
 
 Vue.use(BootstrapVue)
 Vue.use(Router)
@@ -44,6 +46,11 @@ export default new Router({
       name: 'MyPage',
       component: MyPage,
       beforeEnter: requireAuth()
+    },
+    {
+      path: '/detail',
+      name: 'DetailPage',
+      component: DetailPage
     }
 
   ]

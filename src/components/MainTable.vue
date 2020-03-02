@@ -42,7 +42,7 @@
       margin-bottom: 15px;
   "></b-form-input>
         <!-- <div class="mt-2">Value: {{ text }}</div> -->
-        <b-table striped hover :items="tableItems" :fields="fields"></b-table>
+        <b-table striped hover :items="tableItems" @row-clicked="myRowClickHandler" :fields="fields"></b-table>
       </div>
     </div>
     <modal v-show="showModal">
@@ -112,7 +112,8 @@
         email: '',
         pw:'',
         usable: false,
-        tk: localStorage.getItem('accessToken')
+        // tk: localStorage.getItem('accessToken')
+        tk: this.$store.state.accessToken
       }
     },
     methods:{
@@ -127,7 +128,7 @@
         var vm = this;
         this.$http.get('http://localhost/keyword/minit')
         .then((result) => {
-          vm.majorOpt = result.data;
+          vm.majorOpt = result.data.data;
           // console.log(result);
         })
       },
@@ -179,7 +180,7 @@
             // console.log(result.data.data.accessToken) 
             this.$store.dispatch('MLOGIN', { accessToken: result.data.data.accessToken })
             // document.cookie = `accessToken=${result.data.data.accessToken}`;
-            this.$http.defaults.headers.common['x-access-token'] = result.data.data.accessToken
+            this.$http.defaults.headers.common['Authorization'] = result.data.data.accessToken
             location.reload()
           }, (error) => {
             alert("로그인 실패")
@@ -199,9 +200,17 @@
                     }
                 })
                 .then((res) => {
-                    console.log(res.data)
+                    // console.log(res.data)
                     this.usable = res.data
                     })
+      },
+      myRowClickHandler(record, index) {
+        // console.log(record)
+        // alert(index)
+        this.$router.push({
+          name: 'DetailPage',
+          params: { record }
+        })
       }
     },
     mounted(){
